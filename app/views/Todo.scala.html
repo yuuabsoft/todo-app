@@ -1,0 +1,25 @@
+@*
+*
+* Todoリストページ
+*
+*@
+
+@(vv: model.ViewValueTodoList)
+@common.Default(vv){
+    <table border="1" cellspacing="0" cellpadding="5">
+        <tr>
+            <th>タイトル</th>
+            <th>本文</th>
+            <th>ステータス</th>
+            <th>カテゴリ</th>
+        </tr>
+    @for(todo <- vv.todoList) {
+        <tr>
+            <td>@todo._1.v.title</td>
+            <td>@todo._1.v.body</td>
+            <td>@todo._1.v.state.name</td>
+            <td bgcolor=@todo._2.v.color.name >@todo._2.v.name</td>
+        </tr>
+    }
+    </table>
+}
