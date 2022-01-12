@@ -17,7 +17,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
   /*
     Todoリストページ表示
    */
-  def index() = Action { implicit req =>
+  def index() = Action { implicit req: MessagesRequest[AnyContent] =>
 
     val todoList     = Await.result(onMySQL.TodoRepository.all(), Duration.Inf)
     val categoryList = Await.result(onMySQL.CategoryRepository.all(), Duration.Inf)
@@ -111,6 +111,14 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
         Redirect(routes.TodoController.index()).flashing("notice" -> "todoを更新しました。")
       }
       )
+  }
+
+  /*
+    Todo削除実行
+   */
+  def delete(id: String) = Action { implicit req =>
+    Await.result(onMySQL.TodoRepository.remove(Todo.Id(id.toLong)), Duration.Inf)
+    Redirect(routes.TodoController.index()).flashing("notice" -> "todoを削除しました。")
   }
 
   // Todo追加フォーム

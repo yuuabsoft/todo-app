@@ -4,7 +4,8 @@
 *
 *@
 
-@(vv: model.ViewValueTodoList)(implicit flash: Flash)
+@import helper._
+@(vv: model.ViewValueTodoList)(implicit flash: Flash, request: MessagesRequestHeader)
 @common.Default(vv){
     @flash.get("notice").map { notice =>
         <p>@notice</p>
@@ -16,6 +17,7 @@
             <th>ステータス</th>
             <th>カテゴリ</th>
             <th></th>
+            <th></th>
         </tr>
     @for(todo <- vv.todoList) {
         <tr>
@@ -24,6 +26,12 @@
             <td>@todo._1.v.state.name</td>
             <td bgcolor=@todo._2.v.color.name >@todo._2.v.name</td>
             <td><button type=button onclick="location.href='@routes.TodoController.updateView(todo._1.id.toString)'">編集</button></td>
+            <td>
+            @form(routes.TodoController.delete(todo._1.id.toString)) {
+                @CSRF.formField
+                <input type="submit" value="削除">
+                }
+            </td>
         </tr>
     }
     </table>
