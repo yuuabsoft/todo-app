@@ -29,6 +29,6 @@ class TodoController @Inject()(val controllerComponents: ControllerComponents) e
       jsSrc  = Seq("main.js"),
       todoList = todoViewList
     )
-    Ok(views.html.Todo(vv))
+    Ok(views.html.todo.TodoList(vv))
   }
 }
