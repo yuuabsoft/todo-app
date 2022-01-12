@@ -1,0 +1,21 @@
+@*
+*
+* Todo編集ページ
+*
+*@
+@import helper._
+@import model.TodoInput
+@import model.ViewValueTodoUpdate
+@(vv: ViewValueTodoUpdate, todoForm: Form[TodoInput])(implicit request: MessagesRequestHeader)
+
+@common.Default(vv) {
+    @form(routes.TodoController.updateSubmit(vv.todoId)) {
+        @CSRF.formField
+        @* TODO: 項目名は別名（「タイトル」などで表示したい）*@
+        @inputText(todoForm("title"))
+        @textarea(todoForm("body"))
+        @select(todoForm("categoryId"), vv.categoryList)
+        @select(todoForm("state"), vv.stateList)
+        <input type="submit" value="更新する">
+    }
+}
