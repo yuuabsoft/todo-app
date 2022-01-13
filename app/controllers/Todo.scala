@@ -2,7 +2,7 @@ package controllers
 
 import lib.model.{Category, Todo}
 import lib.persistence.onMySQL
-import model.{TodoInput, ViewValueTodoAdd, ViewValueTodoList}
+import model.{TodoAddForm, TodoInput, ViewValueTodoAdd, ViewValueTodoList}
 import play.api.data.Form
 import play.api.data.Forms.{default, ignored, longNumber, mapping, nonEmptyText, text}
 import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, MessagesRequest}
@@ -43,7 +43,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def addView() = Action { implicit req: MessagesRequest[AnyContent] =>
     val vv = this.createViewValueTodoAdd()
-    Ok(views.html.todo.TodoAdd(vv, this.todoAddForm))
+    Ok(views.html.todo.TodoAdd(vv, TodoAddForm()))
   }
 
   /*
@@ -51,7 +51,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def addSubmit() = Action { implicit req =>
 
-    this.todoAddForm.bindFromRequest.fold(
+    TodoAddForm().bindFromRequest.fold(
       // バリデーションエラーがあった場合
       (formWithErrors: Form[TodoInput]) => {
         val vv = this.createViewValueTodoAdd()
@@ -70,16 +70,6 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
       }
     )
   }
-
-  // Todo追加フォーム
-  val todoAddForm: Form[TodoInput] = Form(
-    mapping(
-      "categoryId" -> longNumber,
-      "title" -> nonEmptyText,
-      "body" -> text,
-      "state" -> ignored(0)
-      )(TodoInput.apply)(TodoInput.unapply)
-    )
 
   /*
     Todo追加ページ共通処理
