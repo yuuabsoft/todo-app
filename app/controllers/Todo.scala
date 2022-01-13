@@ -5,6 +5,7 @@ import lib.persistence.onMySQL
 import model.{TodoInput, ViewValueTodoAdd, ViewValueTodoList, ViewValueTodoUpdate}
 import play.api.data.Form
 import play.api.data.Forms.{default, ignored, longNumber, mapping, nonEmptyText, number, text}
+import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, MessagesRequest}
 
 import javax.inject.{Inject, Singleton}
@@ -118,7 +119,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def delete(id: String) = Action { implicit req =>
     Await.result(onMySQL.TodoRepository.remove(Todo.Id(id.toLong)), Duration.Inf)
-    Redirect(routes.TodoController.index()).flashing("notice" -> "todoを削除しました。")
+    Redirect(routes.TodoController.index()).flashing("notice" -> Messages("todoを削除しました。"))
   }
 
   // Todo追加フォーム
