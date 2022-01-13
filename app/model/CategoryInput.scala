@@ -17,7 +17,7 @@ object CategoryAddForm {
     Form(
       mapping(
         "name" -> nonEmptyText,
-        "slug" -> text.verifying(pattern("/^[0-9a-zA-Z]*$/".r, "hankaku", "半角英数字で入力してください")),
+        "slug" -> text.verifying(pattern("^[A-Za-z0-9]+$".r, "hankaku", "半角英数字で入力してください")),
         "color" -> number.transform[Category.Color](v => Category.Color(v.toShort), _.code)
         )(CategoryInput.apply)(CategoryInput.unapply)
       )
@@ -29,7 +29,7 @@ object CategoryUpdateForm {
     Form(
       mapping(
         "name" -> nonEmptyText,
-        "slug" -> text.verifying(pattern("/^[0-9a-zA-Z]*$/".r, "hankaku", "半角英数字で入力してください")),
+        "slug" -> text.verifying(pattern("^[A-Za-z0-9]+$".r, "hankaku", "半角英数字で入力してください")),
         "color" -> number.transform[Category.Color](v => Category.Color(v.toShort), _.code)
         )(CategoryInput.apply)(CategoryInput.unapply)
       )

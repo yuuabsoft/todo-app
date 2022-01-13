@@ -12,7 +12,7 @@ import Todo._
 
 case class Todo(
   id:         Option[Id],
-  categoryId: Category.Id,
+  categoryId: Option[Category.Id],
   title:      String,
   body:       String,
   state:      Status,
@@ -40,7 +40,7 @@ object Todo {
   }
 
   // INSERT時のIDがAutoincrementのため,IDなしであることを示すオブジェクトに変換
-  def apply(categoryId: Category.Id, title: String, body: String, state: Status): WithNoId = {
+  def apply(categoryId: Option[Category.Id], title: String, body: String, state: Status): WithNoId = {
     new Entity.WithNoId(
       new Todo(
         id = None,

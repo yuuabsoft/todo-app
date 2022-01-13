@@ -25,12 +25,10 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
       todoList <- onMySQL.TodoRepository.all()
       categoryList <- onMySQL.CategoryRepository.all()
     } yield {
-      val todoViewList = for {
-        todo <- todoList
-        category <- categoryList.find(_.id == todo.v.categoryId)
-      } yield {
+      val todoViewList = todoList.map(todo => {
+        val category = categoryList.find(_.id == todo.v.categoryId.getOrElse())
         (todo, category)
-      }
+      })
 
       val vv = ViewValueTodoList(
         title = "Todoリスト",
@@ -159,7 +157,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
         title  = "Todoリスト",
         cssSrc = Seq("main.css"),
         jsSrc  = Seq("main.js"),
-        categoryList = categoryList.map(c => (c.id.toString, c.v.name))
+        categoryList = categoryList.map(c => (c.id.toString, c.v.name)) :+ ("", "なし")
         )
     }
   }
@@ -177,7 +175,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
         cssSrc = Seq("main.css"),
         jsSrc = Seq("main.js"),
         todoId = id,
-        categoryList = categoryList.map(c => (c.id.toString, c.v.name)),
+        categoryList = categoryList.map(c => (c.id.toString, c.v.name)) :+ ("", "なし"),
         stateList = stateList
         )
     }

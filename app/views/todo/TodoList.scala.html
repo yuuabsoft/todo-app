@@ -24,7 +24,12 @@
             <td>@todo._1.v.title</td>
             <td>@todo._1.v.body</td>
             <td>@todo._1.v.state.name</td>
-            <td bgcolor=@todo._2.v.color.name >@todo._2.v.name</td>
+            @if(todo._2.isDefined) {
+                <td bgcolor=@todo._2.get.v.color.name >@todo._2.get.v.name</td>
+            } else {
+                <td></td>
+            }
+            <td bgcolor=@todo._2.map(_.v.color.name).getOrElse("") >@todo._2.map(_.v.name).getOrElse("")</td>
             <td><button type=button onclick="location.href='@routes.TodoController.updateView(todo._1.id.toString)'">編集</button></td>
             <td>
             @form(routes.TodoController.delete(todo._1.id.toString)) {
