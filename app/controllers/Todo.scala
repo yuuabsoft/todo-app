@@ -157,7 +157,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
         title  = "Todoリスト",
         cssSrc = Seq("main.css"),
         jsSrc  = Seq("main.js"),
-        categoryList = categoryList.map(c => (c.id.toString, c.v.name)) :+ ("", "なし")
+        categoryList = ("", "なし") +: categoryList.map(c => (c.id.toString, c.v.name))
         )
     }
   }
@@ -175,7 +175,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
         cssSrc = Seq("main.css"),
         jsSrc = Seq("main.js"),
         todoId = id,
-        categoryList = categoryList.map(c => (c.id.toString, c.v.name)) :+ ("", "なし"),
+        categoryList = ("", "なし") +: categoryList.map(c => (c.id.toString, c.v.name)),
         stateList = stateList
         )
     }
