@@ -1,10 +1,9 @@
 package controllers
 
-import lib.model.{Category, Todo}
+import lib.model.Todo
 import lib.persistence.onMySQL
 import model.{TodoAddForm, TodoInput, ViewValueTodoAdd, ViewValueTodoList}
 import play.api.data.Form
-import play.api.data.Forms.{default, ignored, longNumber, mapping, nonEmptyText, text}
 import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, MessagesRequest}
 
 import javax.inject.{Inject, Singleton}
@@ -60,10 +59,10 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
       // 値が正常だった場合
       (input: TodoInput) => {
         val todo: Todo#WithNoId = Todo(
-          Category.Id(input.categoryId),
+          input.categoryId,
           input.title,
           input.body,
-          Todo.Status(input.state.toShort)
+          input.state
           )
         Await.result(onMySQL.TodoRepository.add(todo), Duration.Inf)
         Redirect(routes.TodoController.index()).flashing("notice" -> "todoを作成しました。")
