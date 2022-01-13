@@ -1,1 +1,5 @@
 message.todo.delete=todoを削除しました。
+
+message.category.add=カテゴリを追加しました。
+message.category.update=カテゴリを更新しました。
+message.category.delete=カテゴリを削除しました。

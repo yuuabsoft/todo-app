@@ -1,0 +1,19 @@
+@*
+*
+* カテゴリ編集ページ
+*
+*@
+@import helper._
+@import model.CategoryInput
+@import model.ViewValueCategoryUpdate
+@(vv: ViewValueCategoryUpdate, categoryForm: Form[CategoryInput])(implicit request: MessagesRequestHeader)
+
+@common.Default(vv) {
+    @form(routes.CategoryController.updateSubmit(vv.categoryId.toString)) {
+        @CSRF.formField
+        @inputText(categoryForm("name"))
+        @inputText(categoryForm("slug"))
+        @select(categoryForm("color"), vv.colorList)
+        <input type="submit" value="更新する">
+    }
+}

@@ -1,0 +1,19 @@
+@*
+*
+* カテゴリ追加ページ
+*
+*@
+@import helper._
+@import model.CategoryInput
+@import model.ViewValueCategoryAdd
+@(vv: ViewValueCategoryAdd, categoryForm: Form[CategoryInput])(implicit request: MessagesRequestHeader)
+
+@common.Default(vv) {
+    @form(routes.CategoryController.addSubmit) {
+        @CSRF.formField
+        @inputText(categoryForm("name"))
+        @inputText(categoryForm("slug"))
+        @select(categoryForm("color"), vv.colorList)
+        <input type="submit" value="作成する">
+    }
+}

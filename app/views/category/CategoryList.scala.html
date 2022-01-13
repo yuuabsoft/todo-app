@@ -1,0 +1,37 @@
+@*
+*
+* カテゴリリストページ
+*
+*@
+
+@import helper._
+@(vv: model.ViewValueCategoryList)(implicit flash: Flash, request: MessagesRequestHeader)
+@common.Default(vv){
+    @flash.get("notice").map { notice =>
+        <p>@notice</p>
+    }
+    <table border="1" cellspacing="0" cellpadding="5">
+        <tr>
+            <th>カテゴリ</th>
+            <th>slug</th>
+            <th>色</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @for(category <- vv.categoryList) {
+            <tr>
+                <td>@category.v.name</td>
+                <td>@category.v.slug</td>
+                <td>@category.v.color.name</td>
+                <td><button type=button onclick="location.href='@routes.CategoryController.updateView(category.id.toString)'">編集</button></td>
+                <td>
+                @form(routes.CategoryController.delete(category.id.toString)) {
+                    @CSRF.formField
+                    <input type="submit" value="削除">
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <button type=button onclick="location.href='@routes.CategoryController.addView'">新規作成</button>
+}
