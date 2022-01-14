@@ -1,4 +1,4 @@
-package model
+package json.writes
 
 import lib.model.{Category, Todo}
 import play.api.libs.json.Json

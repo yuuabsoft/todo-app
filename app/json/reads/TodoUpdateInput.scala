@@ -1,4 +1,4 @@
-package model
+package json.reads
 
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsPath, Reads}

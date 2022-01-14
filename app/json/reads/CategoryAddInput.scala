@@ -1,4 +1,4 @@
-package model
+package json.reads
 
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsPath, Reads}
@@ -6,15 +6,15 @@ import play.api.libs.json.{JsPath, Reads}
 /*
   カテゴリ追加API用Inputクラス
  */
-case class CategoryUpdateInput(
+case class CategoryAddInput(
   name:      String,
   slug:      String,
   colorCode: Short
 )
 
-object CategoryUpdateInput {
+object CategoryAddInput {
   // TODO: バリデーション詳細
-  implicit val categoryUpdateInputReads: Reads[CategoryUpdateInput] = (
+  implicit val categoryAddInputReads: Reads[CategoryAddInput] = (
     (JsPath \ "name").read[String] and
       (JsPath \ "slug").read[String] and
       (JsPath \ "colorCode").read[Short]

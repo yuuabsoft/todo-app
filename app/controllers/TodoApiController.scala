@@ -1,8 +1,10 @@
 package controllers
 
+import json.reads.{TodoAddInput, TodoUpdateInput}
+import json.writes.TodoGetResponse
 import lib.model.{Category, Todo}
 import lib.persistence.onMySQL
-import model.{TodoAddForm, TodoAddInput, TodoGetResponse, TodoInput, TodoUpdateInput}
+import model.{TodoAddForm, TodoInput}
 import play.api.data.Form
 import play.api.libs.json._
 import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, MessagesRequest, Request}
