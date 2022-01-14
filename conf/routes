@@ -26,5 +26,11 @@ POST    /api/todo                     controllers.TodoApiController.add
 PUT     /api/todo/:id                 controllers.TodoApiController.update(id)
 DELETE  /api/todo/:id                 controllers.TodoApiController.delete(id)
 
+GET     /api/category                 controllers.CategoryApiController.getAll
+GET     /api/category/:id             controllers.CategoryApiController.get(id)
+POST    /api/category                 controllers.CategoryApiController.add
+PUT     /api/category/:id             controllers.CategoryApiController.update(id)
+DELETE  /api/category/:id             controllers.CategoryApiController.delete(id)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

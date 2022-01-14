@@ -31,5 +31,5 @@ object TodoGetResponse {
       stateName = todo.v.state.name
       )
   }
-  implicit val todoAllGetResponseWrites = Json.writes[TodoGetResponse]
+  implicit val todoGetResponseWrites = Json.writes[TodoGetResponse]
 }

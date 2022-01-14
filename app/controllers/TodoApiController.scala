@@ -43,10 +43,9 @@ class TodoApiController @Inject()(val mcc: MessagesControllerComponents) extends
       categoryList <- categoryFuture
     } yield {
       todo match {
-        case Some(t) => {
+        case Some(t) =>
           val category = categoryList.find(_.id == t.v.categoryId.getOrElse())
           Ok(Json.toJson(TodoGetResponse(t, category)))
-        }
         // TODO: 準正常エラーをフォーマット揃えてjsonで返却する（他APIも同様）
         case _ => NotFound("todo not found")
       }
