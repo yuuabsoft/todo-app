@@ -15,7 +15,7 @@ import scala.concurrent.Future
 class CategoryController @Inject()(val mcc: MessagesControllerComponents) extends MessagesAbstractController(mcc) {
 
   /*
-    Todoリストページ表示
+    カテゴリリストページ表示
    */
   def index() = Action.async { implicit req: MessagesRequest[AnyContent] =>
     for {
