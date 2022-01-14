@@ -20,9 +20,11 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def index() = Action.async { implicit req =>
 
+    val todoListFuture = onMySQL.TodoRepository.all()
+    val categoryFuture = onMySQL.CategoryRepository.all()
     for {
-      todoList <- onMySQL.TodoRepository.all()
-      categoryList <- onMySQL.CategoryRepository.all()
+      todoList <- todoListFuture
+      categoryList <- categoryFuture
     } yield {
       val todoViewList = for {
         todo <- todoList
@@ -48,7 +50,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
     for {
       vv <- this.createViewValueTodoAdd()
     } yield {
-      Ok(views.html.todo.TodoAdd(vv, TodoAddForm()))
+      Ok(views.html.todo.TodoAdd(vv, TodoAddForm.f))
     }
   }
 
@@ -57,7 +59,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def addSubmit() = Action.async { implicit req =>
 
-    TodoAddForm().bindFromRequest.fold(
+    TodoAddForm.f.bindFromRequest.fold(
       // バリデーションエラーがあった場合
       (formWithErrors: Form[TodoInput]) => {
         for {
