@@ -13,7 +13,7 @@ case class TodoInput(
 )
 
 object TodoAddForm {
-  def apply(): Form[TodoInput] = {
+  val f: Form[TodoInput] = {
     Form(
       mapping(
         "categoryId" -> longNumber.transform[Category.Id](v => Category.Id(v), _.longValue()),

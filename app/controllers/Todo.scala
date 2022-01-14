@@ -45,7 +45,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
     for {
       vv <- this.createViewValueTodoAdd()
     } yield {
-      Ok(views.html.todo.TodoAdd(vv, TodoAddForm()))
+      Ok(views.html.todo.TodoAdd(vv, TodoAddForm.f))
     }
   }
 
@@ -54,7 +54,7 @@ class TodoController @Inject()(val mcc: MessagesControllerComponents) extends Me
    */
   def addSubmit() = Action.async { implicit req =>
 
-    TodoAddForm().bindFromRequest.fold(
+    TodoAddForm.f.bindFromRequest.fold(
       // バリデーションエラーがあった場合
       (formWithErrors: Form[TodoInput]) => {
         for {
