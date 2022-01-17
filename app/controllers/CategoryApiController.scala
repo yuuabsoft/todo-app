@@ -55,10 +55,9 @@ class CategoryApiController @Inject()(val mcc: MessagesControllerComponents) ext
           Category.Color(input.colorCode)
           )
         for {
-          _ <- onMySQL.CategoryRepository.add(category)
+          id <- onMySQL.CategoryRepository.add(category)
         } yield {
-          // NOTE: 追加したIDぐらいは返した方が良い気がするが一旦積み
-          Created("category created")
+          Created(Json.obj("id" -> id.toLong))
         }
       // バリデーションエラー
       case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) =>
@@ -82,7 +81,7 @@ class CategoryApiController @Inject()(val mcc: MessagesControllerComponents) ext
           for {
             _ <- onMySQL.CategoryRepository.update(updatedCategory)
           } yield {
-            Ok("category updated")
+            Ok(Json.obj("id" -> id.toLong))
           }
         }
         }
@@ -99,7 +98,7 @@ class CategoryApiController @Inject()(val mcc: MessagesControllerComponents) ext
     for {
       _ <- onMySQL.CategoryRepository.remove(Category.Id(id.toLong))
     } yield {
-      Ok("category deleted")
+      Ok(Json.obj("id" -> id.toLong))
     }
   }
 }

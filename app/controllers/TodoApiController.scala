@@ -69,10 +69,9 @@ class TodoApiController @Inject()(val mcc: MessagesControllerComponents) extends
           Todo.Status.TODO
           )
         for {
-          _ <- onMySQL.TodoRepository.add(todo)
+          id <- onMySQL.TodoRepository.add(todo)
         } yield {
-          // NOTE: 追加したIDぐらいは返した方が良い気がするが一旦積み
-          Created("todo created")
+          Created(Json.obj("id" -> id.toLong))
         }
       // バリデーションエラー
       case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) =>
@@ -97,7 +96,7 @@ class TodoApiController @Inject()(val mcc: MessagesControllerComponents) extends
           for {
             _ <- onMySQL.TodoRepository.update(updatedTodo)
           } yield {
-            Ok("todo updated")
+            Ok(Json.obj("id" -> id.toLong))
           }
           }
         }
@@ -110,11 +109,11 @@ class TodoApiController @Inject()(val mcc: MessagesControllerComponents) extends
   /*
     Todo削除
    */
-  def delete(id: String) = Action.async(parse.json) { implicit req: Request[JsValue] =>
+  def delete(id: String) = Action.async { implicit req: MessagesRequest[AnyContent] =>
     for {
       _ <- onMySQL.TodoRepository.remove(Todo.Id(id.toLong))
     } yield {
-      Ok("todo deleted")
+      Ok(Json.obj("id" -> id.toLong))
     }
   }
 }
