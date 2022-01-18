@@ -94,7 +94,7 @@ class CategoryApiController @Inject()(val mcc: MessagesControllerComponents) ext
   /*
     Category削除
    */
-  def delete(id: String) = Action.async(parse.json) { implicit req: Request[JsValue] =>
+  def delete(id: String) = Action.async { implicit req: MessagesRequest[AnyContent] =>
     for {
       _ <- onMySQL.CategoryRepository.remove(Category.Id(id.toLong))
     } yield {
