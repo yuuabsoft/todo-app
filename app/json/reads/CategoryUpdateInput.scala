@@ -1,6 +1,7 @@
 package json.reads
 
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.Reads.{minLength, pattern}
 import play.api.libs.json.{JsPath, Reads}
 
 /*
@@ -13,10 +14,9 @@ case class CategoryUpdateInput(
 )
 
 object CategoryUpdateInput {
-  // TODO: バリデーション詳細
   implicit val categoryUpdateInputReads: Reads[CategoryUpdateInput] = (
-    (JsPath \ "name").read[String] and
-      (JsPath \ "slug").read[String] and
+    (JsPath \ "name").read[String](minLength[String](1)) and
+      (JsPath \ "slug").read[String](pattern("^[A-Za-z0-9]+$".r)) and
       (JsPath \ "colorCode").read[Short]
     ) (apply _)
 }

@@ -1,6 +1,7 @@
 package json.reads
 
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.Reads.minLength
 import play.api.libs.json.{JsPath, Reads}
 
 /*
@@ -13,10 +14,9 @@ case class TodoAddInput(
 )
 
 object TodoAddInput {
-  // TODO: バリデーション詳細
   implicit val todoAddInputReads: Reads[TodoAddInput] = (
     (JsPath \ "categoryId").readNullable[Long] and
-      (JsPath \ "title").read[String] and
-      (JsPath \ "body").read[String]
+      (JsPath \ "title").read[String](minLength[String](1)) and
+      (JsPath \ "body").read[String](minLength[String](1))
   )(apply _)
 }
